@@ -8,6 +8,11 @@ var cors = require('cors')
 
 const app = express();
 
+
+//routes imports
+const authRoutes = require("./routes/auth")
+
+
 //DB Connection
 const dbUrl = process.env.DBURL;
 const connectionParams = {
@@ -21,10 +26,19 @@ mongoose.connect(dbUrl, connectionParams).then(()=>{
     console.log("Error:" + e);
 })
 
+
 //Middlewares
-app.use(bodyParser.json);
+app.use(bodyParser.json())
 app.use(cookieParser());
 app.use(cors());
+
+
+//My Routes
+app.use("/api", authRoutes)
+app.get('/subscribe',(_, res)=>{
+    res.send('subsc to cules')
+})
+
 
 //PORT
 const port = process.env.PORT || 8000;
