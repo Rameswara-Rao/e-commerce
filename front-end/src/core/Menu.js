@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate , NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { isAutheticated, signout } from "../auth/helper";
 
 const Menu = () => {
@@ -31,33 +31,42 @@ const Menu = () => {
             Cart
           </NavLink>
         </li>
-        <li className="nav-item">
-          <NavLink
-            to={"/Dashboard"}
-            className="nav-link"
-            style={({ isActive }) => (isActive ? activeStyle : undefined)}
-          >
-            Dashboard
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink
-            to={"/admin/Dashboard"}
-            className="nav-link"
-            style={({ isActive }) => (isActive ? activeStyle : undefined)}
-          >
-            A. Dashboard
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink
-            to={"/signup"}
-            className="nav-link"
-            style={({ isActive }) => (isActive ? activeStyle : undefined)}
-          >
-            SignUp
-          </NavLink>
-        </li>
+        {isAutheticated() && isAutheticated().user.role === 0 && (
+          <li className="nav-item">
+            <NavLink
+              to={"/user/Dashboard"}
+              className="nav-link"
+              style={({ isActive }) => (isActive ? activeStyle : undefined)}
+            >
+              Dashboard
+            </NavLink>
+          </li>
+        )}
+
+        {isAutheticated() && isAutheticated().user.role === 1 && (
+          <li className="nav-item">
+            <NavLink
+              to={"/admin/Dashboard"}
+              className="nav-link"
+              style={({ isActive }) => (isActive ? activeStyle : undefined)}
+            >
+              A. Dashboard
+            </NavLink>
+          </li>
+        )}
+
+        {!isAutheticated() && (
+          <li className="nav-item">
+            <NavLink
+              to={"/signup"}
+              className="nav-link"
+              style={({ isActive }) => (isActive ? activeStyle : undefined)}
+            >
+              SignUp
+            </NavLink>
+          </li>
+        )}
+
         {/* <li className="nav-item">
           <NavLink
             to={"/signin"}
@@ -68,30 +77,30 @@ const Menu = () => {
           </NavLink>
         </li> */}
         {!isAutheticated() && (
-        <li className="nav-item">
-        <NavLink
-          to={"/signin"}
-          className="nav-link"
-          style={({ isActive }) => (isActive ? activeStyle : undefined)}
-        >
-          signin
-        </NavLink>
-      </li>
-      )}
+          <li className="nav-item">
+            <NavLink
+              to={"/signin"}
+              className="nav-link"
+              style={({ isActive }) => (isActive ? activeStyle : undefined)}
+            >
+              signin
+            </NavLink>
+          </li>
+        )}
         {isAutheticated() && (
-        <li className="nav-item">
-          <span
-            className="nav-link text-warning"
-            onClick={() => {
-              signout(() => {
-                navigate("/");
-              });
-            }}
-          >
-            Signout
-          </span>
-        </li>
-      )}
+          <li className="nav-item">
+            <span
+              className="nav-link text-warning"
+              onClick={() => {
+                signout(() => {
+                  navigate("/");
+                });
+              }}
+            >
+              Signout
+            </span>
+          </li>
+        )}
       </ul>
     </div>
   );
